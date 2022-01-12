@@ -31,7 +31,7 @@ class _bottomnavState extends State<bottomnav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFEBEAEF),
       body: PageStorage(
         child: currentScreen,
         bucket: bucket,
@@ -40,7 +40,7 @@ class _bottomnavState extends State<bottomnav> {
         backgroundColor: Color(0xFF5284E3),
         child: ImageIcon(
           NetworkImage("https://i.postimg.cc/q7h16vPh/Group-1.png"),
-          color: Color(0xFF4F4F4F),
+          color: Color(0xFFEBEAEF),
         ),
         onPressed: () {
           setState(() {
