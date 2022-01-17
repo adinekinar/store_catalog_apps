@@ -27,6 +27,10 @@ class _homepageState extends State<homepage> {
         ),
         actions: [
           IconButton(
+            icon: Icon(CupertinoIcons.chat_bubble, color: Colors.black,),
+            onPressed: () {},
+          ),
+          IconButton(
             icon: Icon(CupertinoIcons.cart, color: Colors.black,),
             onPressed: () {},
           ),
