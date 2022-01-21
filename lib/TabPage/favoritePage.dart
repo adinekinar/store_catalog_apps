@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:store_catalog_apps/Cart/cart.dart';
 import 'package:store_catalog_apps/Cart/eachproductpg.dart';
 import 'package:store_catalog_apps/Data/allData.dart';
 
@@ -17,25 +18,7 @@ class _favpageState extends State<favpage> {
       length: 2,
       child: Scaffold(
         backgroundColor: Color(0xFFEBEAEF),
-        appBar: AppBar(
-          title: Text(
-            'Favorite',
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Color(0xFFEBEAEF),
-          elevation: 0,
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(CupertinoIcons.settings, color: Colors.black,),
-            onPressed: () {},
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(CupertinoIcons.cart, color: Colors.black,),
-              onPressed: () {},
-            ),
-          ],
-        ),
+        appBar: buildAppBar(),
         body: Column(
           children: [
             Padding(
@@ -69,15 +52,11 @@ class _favpageState extends State<favpage> {
                   CustomScrollView(
                     slivers: [
                       SliverList(
-                        delegate: SliverChildListDelegate(
-                          products.map((e) => ListFavoriteProd(
-                            title: e.pname,
-                            storename: e.storename,
-                            urlproduct: e.pURL[0],
-                            color: e.pcolor[0],
-                            desc: e.pdesc,
-                            prize: e.prize,
-                          )).toList(),
+                        delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return ListFavoriteProd(product: products[index]);
+                            },
+                            childCount: products.length,
                         ),
                       ),
                     ],
@@ -103,16 +82,44 @@ class _favpageState extends State<favpage> {
       ),
     );
   }
+
+  AppBar buildAppBar() {
+    return AppBar(
+        title: Text(
+          'Favorite',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Color(0xFFEBEAEF),
+        elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(CupertinoIcons.settings, color: Colors.black,),
+          onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(CupertinoIcons.cart, color: Colors.black,),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen()),
+              );
+            },
+          ),
+        ],
+      );
+  }
+}
+
+class ProdDetailArguments {
+  final Product product;
+
+  ProdDetailArguments({required this.product});
 }
 
 class ListFavoriteProd extends StatelessWidget {
-  const ListFavoriteProd({Key? key, required this.title, required this.storename, required this.urlproduct, required this.color, required this.desc, required this.prize}) : super(key: key);
-  final String title;
-  final String storename;
-  final String urlproduct;
-  final String color;
-  final String desc;
-  final int prize;
+  const ListFavoriteProd({Key? key, required this.product}) : super(key: key);
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -129,18 +136,18 @@ class ListFavoriteProd extends StatelessWidget {
             Container(
                 margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 height: 100, width: 100,
-                child: Image.asset('asset/product/'+urlproduct)
+                child: Image.asset(product.pURL[0]),
             ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    product.pname,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5,),
-                  Text(storename)
+                  Text(product.storename)
                 ],
               ),
             ),
@@ -158,7 +165,7 @@ class ListFavoriteProd extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const eachProductPg()),
+          MaterialPageRoute(builder: (context) => eachProductPg(product: product,)),
         );
       },
     );
@@ -212,12 +219,7 @@ class ListFavoriteMP extends StatelessWidget {
           ],
         ),
       ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const eachProductPg()),
-        );
-      },
+      onPressed: () {},
     );
   }
 }

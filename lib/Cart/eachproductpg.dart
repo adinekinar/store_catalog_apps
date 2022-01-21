@@ -1,25 +1,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:store_catalog_apps/Data/allData.dart';
 import 'package:store_catalog_apps/TabPage/favoritePage.dart';
 
 class eachProductPg extends StatefulWidget {
-  const eachProductPg({Key? key}) : super(key: key);
+  const eachProductPg({Key? key, required this.product}) : super(key: key);
+
+  final Product product;
 
   @override
   _eachProductPgState createState() => _eachProductPgState();
 }
 
 class _eachProductPgState extends State<eachProductPg> {
+
+  int amount = 0;
+
+  void increment() {
+    setState(() {
+      amount++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      if (amount != 0)
+        amount--;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     int selectedColor = 0;
-    int amount = 0;
     
     return Scaffold(
-      backgroundColor: Colors.redAccent,
+      backgroundColor: widget.product.pcolor[selectedColor],
       appBar: buildAppBar(),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
@@ -40,7 +59,7 @@ class _eachProductPgState extends State<eachProductPg> {
                     SizedBox(height: 5,),
                     Container(
                       height: 45,
-                      width: 130,
+                      width: 120,
                       decoration: BoxDecoration(
                         border: Border.all(),
                         borderRadius: BorderRadius.circular(40)
@@ -49,25 +68,16 @@ class _eachProductPgState extends State<eachProductPg> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
-                            child: Icon(CupertinoIcons.add),
-                            onTap: () {
-                              setState(() {
-                                amount++;
-                              });
-                            },
+                            child: Icon(CupertinoIcons.add, size: 20,),
+                            onTap: increment,
                           ),
                           Text(
-                            '$amount',
+                            '${amount}',
                             style: TextStyle(fontSize: 18),
                           ),
                           GestureDetector(
-                            child: Icon(CupertinoIcons.minus),
-                            onTap: () {
-                              setState(() {
-                                if(amount != 0)
-                                  amount--;
-                              });
-                            },
+                            child: Icon(CupertinoIcons.minus, size: 20,),
+                            onTap: decrement,
                           ),
                         ],
                       ),
@@ -90,7 +100,7 @@ class _eachProductPgState extends State<eachProductPg> {
                       ),
                     ),
                     height: 70,
-                    width: 110,
+                    width: 120,
                     decoration: BoxDecoration(
                       color: Colors.blueAccent,
                       borderRadius: BorderRadius.circular(20),
@@ -131,7 +141,7 @@ class _eachProductPgState extends State<eachProductPg> {
                                 children: [
                                   Container(
                                     child: Text(
-                                      'Bor Listrik',
+                                      widget.product.pname,
                                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                     ),
                                     margin: EdgeInsets.symmetric(horizontal: 30),
@@ -141,30 +151,19 @@ class _eachProductPgState extends State<eachProductPg> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       SizedBox(width: 30,),
-                                      Container(
-                                        height: 20,
-                                        width: 20,
-                                        decoration: BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius: BorderRadius.circular(5),
-                                            border: Border.all(
-                                              width: 2.5,
-                                              color: Colors.blueGrey,
-                                            )
+                                      for(var i = 0; i < widget.product.pcolor.length; i++)
+                                        Container(
+                                          height: 20,
+                                          width: 20,
+                                          margin: EdgeInsets.only(right: 10),
+                                          decoration: BoxDecoration(
+                                              color: widget.product.pcolor[i],
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                color: Colors.transparent,
+                                              )),
                                         ),
-                                      ),
-                                      SizedBox(width: 10,),
-                                      Container(
-                                        height: 20,
-                                        width: 20,
-                                        decoration: BoxDecoration(
-                                            color: Colors.green,
-                                            borderRadius: BorderRadius.circular(5),
-                                            border: Border.all(
-                                              color: Colors.transparent,
-                                            )
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ],
@@ -179,7 +178,7 @@ class _eachProductPgState extends State<eachProductPg> {
                                     style: TextStyle(fontSize: 18),
                                   ),
                                   Text(
-                                    NumberFormat.compactCurrency(locale: 'id', symbol: '', decimalDigits: 0).format(256000),
+                                    NumberFormat.compactCurrency(locale: 'id', symbol: '', decimalDigits: 0).format(widget.product.prize),
                                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                                   )
                                 ],
@@ -203,7 +202,7 @@ class _eachProductPgState extends State<eachProductPg> {
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 50),
                             child: ExpandableText(
-                              'Lengkap dengan kotak. Berisi mata bor 12 buah, kabel, dan alat bor.',
+                              widget.product.pdesc,
                               expandText: 'More...',
                               collapseText: 'Less...',
                               maxLines: 1,
@@ -219,7 +218,7 @@ class _eachProductPgState extends State<eachProductPg> {
                       Expanded(
                         child: Container(
                           height: 300,
-                          child: Image.asset('asset/product/bor.png',),
+                          child: Image.asset(widget.product.pURL[0]),
                         ),
                       )
                     ],
@@ -235,15 +234,10 @@ class _eachProductPgState extends State<eachProductPg> {
 
   AppBar buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.redAccent,
+      backgroundColor: widget.product.pcolor[0],
       elevation: 0,
-      leading: IconButton(
-        icon: Icon(CupertinoIcons.back, color: Colors.black,),
-        onPressed: (){
-          Navigator.pop(
-              context,
-              MaterialPageRoute(builder: (context) => const favpage()));
-        }
+      leading: BackButton(
+        color: Colors.black,
       ),
       actions: [
         IconButton(

@@ -21,9 +21,8 @@ class _searchpageState extends State<searchpage> {
         backgroundColor: Color(0xFFEBEAEF),
         elevation: 0,
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(CupertinoIcons.back, color: Colors.black,),
-          onPressed: () {},
+        leading: BackButton(
+          color: Colors.black,
         ),
         actions: [
           IconButton(
