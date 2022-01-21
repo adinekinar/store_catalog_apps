@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:store_catalog_apps/Cart/cart.dart';
 
 class homepage extends StatefulWidget {
   const homepage({Key? key}) : super(key: key);
@@ -32,7 +33,12 @@ class _homepageState extends State<homepage> {
           ),
           IconButton(
             icon: Icon(CupertinoIcons.cart, color: Colors.black,),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen()),
+              );
+            },
           ),
         ],
       ),

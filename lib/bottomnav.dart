@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:store_catalog_apps/Data/allData.dart';
 
 import 'package:store_catalog_apps/TabPage/favoritePage.dart';
 import 'package:store_catalog_apps/TabPage/homePage.dart';
@@ -17,6 +18,10 @@ class bottomnav extends StatefulWidget {
 class _bottomnavState extends State<bottomnav> {
 
   int currentTab = 0;
+
+  final PageStorageBucket bucket = PageStorageBucket();
+  Widget currentScreen = homepage();
+
   final List<Widget> screen = [
     homepage(),
     favpage(),
@@ -24,9 +29,6 @@ class _bottomnavState extends State<bottomnav> {
     notifpage(),
     profilepage()
   ];
-
-  final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = homepage();
 
   @override
   Widget build(BuildContext context) {
