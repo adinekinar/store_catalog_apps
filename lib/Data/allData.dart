@@ -1,6 +1,8 @@
 //Data User
 import 'package:flutter/cupertino.dart';
 
+List<String> storename = ['Perkutut', 'Perkakas Gagah', 'Solid Media', 'EdiaLhur', 'FM Store'];
+
 class User {
   final String username;
   final String email;
@@ -44,7 +46,7 @@ List<Product> products = [
   Product(
     pname: 'Bor',
     pdesc: 'Lengkap dengan kotak. Berisi mata bor 12 buah, kabel, dan alat bor.',
-    storename: 'Perkutut',
+    storename: storename[0],
     pcolor: [Color(0xFFBB1616)],
     pURL: ['asset/product/bor.png'],
     prize: 480000
@@ -52,7 +54,7 @@ List<Product> products = [
   Product(
     pname: 'Gergaji Tangan',
     pdesc: 'Gergaji Tangan 2 Mata / Gergaji Belah, ukurannya 18 INCH.',
-    storename: 'Perkakas Gagah',
+    storename: storename[1],
     pcolor: [Color(0xFFA47853)],
     pURL: ['asset/product/gergaji.png'],
     prize: 37000
@@ -60,7 +62,7 @@ List<Product> products = [
   Product(
     pname: 'Gergaji Fiber',
     pdesc: 'Gergaji tangan 2 Mata / Gergaji Belah, ukurannya 18 INCH. Dengan gagang fiber.',
-    storename: 'Solid Media',
+    storename: storename[2],
     pcolor: [Color(0xFF9AEA02)],
     pURL: ['asset/product/gergaji fiber.png'],
     prize: 57000
@@ -68,7 +70,7 @@ List<Product> products = [
   Product(
     pname: 'Gergaji Lipat',
     pdesc: 'Gergaji Lipat dapat dibawa-bawa dengan mudah kemana saja.',
-    storename: 'EdiaLhur',
+    storename: storename[3],
     pcolor: [Color(0xFFF77503)],
     pURL: ['asset/product/gergaji lipat.png'],
     prize: 50000
@@ -76,7 +78,7 @@ List<Product> products = [
   Product(
     pname: 'Gergaji Listrik',
     pdesc: 'Gergaji Listrik lengkap dengan box. Terdiri atas kabel dan alat utamanya. Bertengangan 5 Volt.',
-    storename: 'Perkakas Gagah',
+    storename: storename[1],
     pcolor: [Color(0xFF44444C)],
     pURL: ['asset/product/gergaji listrik.png'],
     prize: 255000
@@ -84,7 +86,7 @@ List<Product> products = [
   Product(
     pname: 'Gergaji Tipis',
     pdesc: 'Gergaji Tipis, dapat diugunakan untuk memotong yang lebih spesifik/rumit. Ukurannya 18 INCH.',
-    storename: 'FM store',
+    storename: storename[4],
     pcolor: [Color(0xFFF4A471)],
     pURL: ['asset/product/gergaji tipis.png'],
     prize: 46000
@@ -92,7 +94,7 @@ List<Product> products = [
   Product(
     pname: 'Kacamata Las',
     pdesc: 'Teknologi terbaru, gagang tebal dan kuat. Tahan juga terhadap sinar UV.',
-    storename: 'Solid Media',
+    storename: storename[2],
     pcolor: [Color(0xFFE09DD2)],
     pURL: ['asset/product/kacamata las.png'],
     prize: 44600
@@ -100,7 +102,7 @@ List<Product> products = [
   Product(
     pname: 'Obeng',
     pdesc: 'Obeng +. Dilengkapi magnet untuk menempelnya sekrup. Ukuran compact 7 Inch.',
-    storename: 'FM store',
+    storename: storename[4],
     pcolor: [Color(0xFF951402)],
     pURL: ['asset/product/obeng.png'],
     prize: 35000
@@ -108,7 +110,7 @@ List<Product> products = [
   Product(
     pname: 'Obeng Fiber',
     pdesc: 'Obeng tangan + plus, - minus, ukurannya 7 INCH. Dengan gagang fiber.',
-    storename: 'EdiaLhur',
+    storename: storename[3],
     pcolor: [Color(0xFF9ECE57), Color(0xFFCB3753)],
     pURL: ['asset/product/obeng fiber.png', 'asset/product/obeng fiber2.png'],
     prize: 67100
@@ -116,7 +118,7 @@ List<Product> products = [
   Product(
     pname: 'Obeng Listrik',
     pdesc: 'Obeng Listrik lengkap dengan box. Terdiri atas kabel dan alat utamanya. Bertengangan 5 Volt.',
-    storename: 'Perkutut',
+    storename: storename[0],
     pcolor: [Color(0xFFDD363C)],
     pURL: ['asset/product/obeng listrik.png'],
     prize: 293000
@@ -124,7 +126,7 @@ List<Product> products = [
   Product(
     pname: 'Obeng T',
     pdesc: 'Obeng berbentuk huruf T, lengkap dengan matanya 12 buah.',
-    storename: 'Perkakas Gagah',
+    storename: storename[1],
     pcolor: [Color(0xFFEBC502), Color(0xFFED0404)],
     pURL: ['asset/product/obeng T.png', 'asset/product/obeng T2.png'],
     prize: 18000
@@ -132,7 +134,7 @@ List<Product> products = [
   Product(
     pname: 'Tang Fiber',
     pdesc: 'Tang tangan, ukurannya 5 INCH. Dengan gagang fiber.',
-    storename: 'Solid Media',
+    storename: storename[2],
     pcolor: [Color(0xFFFDE50C)],
     pURL: ['asset/product/tang.png'],
     prize: 44800
@@ -140,7 +142,7 @@ List<Product> products = [
   Product(
     pname: 'Tang Las',
     pdesc: 'Tang untuk las, ukuran 6 inch. Gagang fiber, dengan tegangan 12 Volt.',
-    storename: 'FM store',
+    storename: storename[4],
     pcolor: [Color(0xFFFB8C52)],
     pURL: ['asset/product/tang las.png'],
     prize: 62500

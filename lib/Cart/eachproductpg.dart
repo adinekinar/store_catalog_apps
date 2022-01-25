@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:store_catalog_apps/Data/allData.dart';
-import 'package:store_catalog_apps/TabPage/favoritePage.dart';
+import 'package:store_catalog_apps/Data/heartanim.dart';
 
 class eachProductPg extends StatefulWidget {
   const eachProductPg({Key? key, required this.product}) : super(key: key);
@@ -18,6 +17,9 @@ class eachProductPg extends StatefulWidget {
 class _eachProductPgState extends State<eachProductPg> {
 
   int amount = 0;
+  bool isLiked = false;
+  bool selectedColor = false;
+  int colorIndex = 0;
 
   void increment() {
     setState(() {
@@ -35,10 +37,9 @@ class _eachProductPgState extends State<eachProductPg> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    int selectedColor = 0;
-    
+
     return Scaffold(
-      backgroundColor: widget.product.pcolor[selectedColor],
+      backgroundColor: widget.product.pcolor[colorIndex],
       appBar: buildAppBar(),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
@@ -152,17 +153,22 @@ class _eachProductPgState extends State<eachProductPg> {
                                     children: <Widget>[
                                       SizedBox(width: 30,),
                                       for(var i = 0; i < widget.product.pcolor.length; i++)
-                                        Container(
-                                          height: 20,
-                                          width: 20,
-                                          margin: EdgeInsets.only(right: 10),
-                                          decoration: BoxDecoration(
-                                              color: widget.product.pcolor[i],
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              border: Border.all(
-                                                color: Colors.transparent,
-                                              )),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              selectedColor = !selectedColor;
+                                              colorIndex = i;
+                                            });
+                                          },
+                                          child: Container(
+                                            height: 20,
+                                            width: 20,
+                                            margin: EdgeInsets.only(right: 10),
+                                            decoration: BoxDecoration(
+                                                color: widget.product.pcolor[i],
+                                                borderRadius: BorderRadius.circular(5),
+                                            ),
+                                          ),
                                         ),
                                     ],
                                   ),
@@ -218,7 +224,7 @@ class _eachProductPgState extends State<eachProductPg> {
                       Expanded(
                         child: Container(
                           height: 300,
-                          child: Image.asset(widget.product.pURL[0]),
+                          child: Image.asset(widget.product.pURL[colorIndex]),
                         ),
                       )
                     ],
@@ -233,16 +239,28 @@ class _eachProductPgState extends State<eachProductPg> {
   }
 
   AppBar buildAppBar() {
+
+    final icon = isLiked ? CupertinoIcons.heart_fill : CupertinoIcons.heart;
+    final colorIcon = isLiked ? Colors.redAccent : Colors.black;
+
     return AppBar(
-      backgroundColor: widget.product.pcolor[0],
+      backgroundColor: widget.product.pcolor[colorIndex],
       elevation: 0,
       leading: BackButton(
         color: Colors.black,
       ),
       actions: [
-        IconButton(
-          icon: Icon(CupertinoIcons.heart, color: Colors.black,),
-          onPressed: () {},
+        likeAnimationWidget(
+          isAnimating: isLiked,
+          alwaysAnimate: true,
+          child: IconButton(
+            icon: Icon(icon, color: colorIcon,),
+            onPressed: () {
+              setState(() {
+                isLiked = !isLiked;
+              });
+            },
+          ),
         ),
       ],
     );
