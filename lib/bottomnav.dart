@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:store_catalog_apps/Data/allData.dart';
+import 'package:store_catalog_apps/Data/searchPgTemp.dart';
 
 import 'package:store_catalog_apps/TabPage/favoritePage.dart';
 import 'package:store_catalog_apps/TabPage/homePage.dart';
@@ -25,7 +26,7 @@ class _bottomnavState extends State<bottomnav> {
   final List<Widget> screen = [
     homepage(),
     favpage(),
-    searchpage(),
+    searchTempPg(),
     notifpage(),
     profilepage()
   ];
@@ -46,7 +47,7 @@ class _bottomnavState extends State<bottomnav> {
         ),
         onPressed: () {
           setState(() {
-            currentScreen = searchpage();
+            currentScreen = searchTempPg();
             currentTab = 4;
           });
         },
