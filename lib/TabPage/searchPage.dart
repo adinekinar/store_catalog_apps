@@ -11,16 +11,36 @@ class searchpage extends StatefulWidget {
 }
 
 class _searchpageState extends State<searchpage> {
-
+  List<Product>? product;
   final searchcont = TextEditingController();
+  String query = '';
+
+  @override
+  void initState() {
+    product = products;
+  }
 
   @override
   Widget build(BuildContext context) {
-    
-    final searchProduct = products.where((sp) => sp.pname.toLowerCase().contains(searchcont.toString())).toList();
-
     Size size = MediaQuery.of(context).size;
-    
+    //final searchProduct = products.where((sp) => sp.pname.toLowerCase().contains(searchcont.toString())).toList();
+
+    void onChange (String query) {
+      final prod = products.where((prd) {
+        final titlelower = prd.pname.toLowerCase();
+        final storeLower = prd.storename.toLowerCase();
+        final searchLow = query.toLowerCase();
+
+        return titlelower.contains(searchLow) ||
+          storeLower.contains(searchLow);
+      }).toList();
+
+      setState(() {
+        this.query = query;
+        this.product = product;
+      });
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFFEBEAEF),
       appBar: AppBar(
@@ -36,7 +56,7 @@ class _searchpageState extends State<searchpage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(CupertinoIcons.chat_bubble, color: Colors.black,),
+            icon: Icon(CupertinoIcons.search_circle, color: Colors.black,),
             onPressed: () {},
           ),
         ],
@@ -52,20 +72,93 @@ class _searchpageState extends State<searchpage> {
                   hintText: 'Search keyword...',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.black))),
+                      borderSide: BorderSide(color: Colors.black)),
+                suffixIcon: query.isNotEmpty
+                  ? GestureDetector(
+                    child: Icon(Icons.close,),
+                    onTap: () {
+                      searchcont.clear();
+                      onChange('');
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
+                ) : null,
+              ),
+              onChanged: onChange,
             ),
           ),
-          GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              return Container(
-                height: 300,
-                color: Colors.yellow,
-              );
-            },
-            itemCount: products.length,
+          Flexible(
+            child: CustomScrollView(
+              slivers: [
+                SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                      return gridSearch(product: products[index],);
+                    },
+                    childCount: products.length,
+                  ),
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: size.width/2,
+                      mainAxisExtent: size.height/3,
+                      mainAxisSpacing: 10
+                  ),
+                ),
+              ],
+            ),
           ),
+          SizedBox(height: 30,)
         ],
+      ),
+    );
+  }
+}
+
+class gridSearch extends StatelessWidget {
+  const gridSearch({Key? key, required this.product}) : super(key: key);
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  height: size.height/5,
+                  child: Image.asset(product.pURL[0]),
+                ),
+              ),
+              onTap: () {},
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  product.pname,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                Container(
+                  child: Text(
+                    product.storename,
+                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
