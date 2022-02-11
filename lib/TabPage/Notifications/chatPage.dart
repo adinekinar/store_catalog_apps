@@ -69,8 +69,8 @@ class ChatContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.asset(
-              "assets/images/chat_pic.png",
+            Image.network(
+              "https://placesjournal.org/wp-content/uploads/2018/07/mattern-02-hardware.jpg",
               height: 64,
               width: 64,
             ),
@@ -79,7 +79,7 @@ class ChatContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "HRD IBM Japan",
+                  "Keputih Perkakas",
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 SizedBox(

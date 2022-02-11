@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:store_catalog_apps/Data/allData.dart';
 import 'package:store_catalog_apps/Data/searchPgTemp.dart';
 
-import 'package:store_catalog_apps/TabPage/favoritePage.dart';
-import 'package:store_catalog_apps/TabPage/homePage.dart';
-import 'package:store_catalog_apps/TabPage/notifyPage.dart';
-import 'package:store_catalog_apps/TabPage/profilePage.dart';
-import 'package:store_catalog_apps/TabPage/searchPage.dart';
+import 'package:store_catalog_apps/TabPage/Favorites/favoritePage.dart';
+import 'package:store_catalog_apps/TabPage/Home/homePage.dart';
+import 'package:store_catalog_apps/TabPage/Notifications/notifyPage.dart';
+import 'package:store_catalog_apps/TabPage/Profile/profilePage.dart';
+import 'package:store_catalog_apps/TabPage/Search/searchPage.dart';
 
 class bottomnav extends StatefulWidget {
   const bottomnav({Key? key}) : super(key: key);
@@ -17,7 +17,6 @@ class bottomnav extends StatefulWidget {
 }
 
 class _bottomnavState extends State<bottomnav> {
-
   int currentTab = 0;
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -65,7 +64,7 @@ class _bottomnavState extends State<bottomnav> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   MaterialButton(
-                    minWidth: (MediaQuery.of(context).size.width)/5,
+                    minWidth: (MediaQuery.of(context).size.width) / 5,
                     onPressed: () {
                       setState(() {
                         currentScreen = homepage();
@@ -77,17 +76,24 @@ class _bottomnavState extends State<bottomnav> {
                       children: [
                         Icon(
                           Icons.home,
-                          color: currentTab == 0 ? Color(0xFF5284E3) : Color(0xFF4F4F4F),
+                          color: currentTab == 0
+                              ? Color(0xFF5284E3)
+                              : Color(0xFF4F4F4F),
                         ),
                         Text(
                           'Main Menu',
-                          style: TextStyle(fontSize: (MediaQuery.of(context).size.width)/38,color:  currentTab == 0 ? Color(0xFF5284E3) : Color(0xFF4F4F4F)),
+                          style: TextStyle(
+                              fontSize:
+                                  (MediaQuery.of(context).size.width) / 38,
+                              color: currentTab == 0
+                                  ? Color(0xFF5284E3)
+                                  : Color(0xFF4F4F4F)),
                         ),
                       ],
                     ),
                   ),
                   MaterialButton(
-                    minWidth: (MediaQuery.of(context).size.width)/5,
+                    minWidth: (MediaQuery.of(context).size.width) / 5,
                     onPressed: () {
                       setState(() {
                         currentScreen = favpage();
@@ -99,11 +105,18 @@ class _bottomnavState extends State<bottomnav> {
                       children: [
                         Icon(
                           CupertinoIcons.heart_fill,
-                          color: currentTab == 1 ? Color(0xFF5284E3) : Color(0xFF4F4F4F),
+                          color: currentTab == 1
+                              ? Color(0xFF5284E3)
+                              : Color(0xFF4F4F4F),
                         ),
                         Text(
                           'Favorite',
-                          style: TextStyle(fontSize:(MediaQuery.of(context).size.width)/38, color:  currentTab == 1 ? Color(0xFF5284E3) : Color(0xFF4F4F4F)),
+                          style: TextStyle(
+                              fontSize:
+                                  (MediaQuery.of(context).size.width) / 38,
+                              color: currentTab == 1
+                                  ? Color(0xFF5284E3)
+                                  : Color(0xFF4F4F4F)),
                         ),
                       ],
                     ),
@@ -114,7 +127,7 @@ class _bottomnavState extends State<bottomnav> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   MaterialButton(
-                    minWidth: (MediaQuery.of(context).size.width)/5,
+                    minWidth: (MediaQuery.of(context).size.width) / 5,
                     onPressed: () {
                       setState(() {
                         currentScreen = notifpage();
@@ -126,17 +139,24 @@ class _bottomnavState extends State<bottomnav> {
                       children: [
                         Icon(
                           CupertinoIcons.bell_fill,
-                          color: currentTab == 2 ? Color(0xFF5284E3) : Color(0xFF4F4F4F),
+                          color: currentTab == 2
+                              ? Color(0xFF5284E3)
+                              : Color(0xFF4F4F4F),
                         ),
                         Text(
                           'Notification',
-                          style: TextStyle(fontSize: (MediaQuery.of(context).size.width)/38,color:  currentTab == 2 ? Color(0xFF5284E3) : Color(0xFF4F4F4F)),
+                          style: TextStyle(
+                              fontSize:
+                                  (MediaQuery.of(context).size.width) / 38,
+                              color: currentTab == 2
+                                  ? Color(0xFF5284E3)
+                                  : Color(0xFF4F4F4F)),
                         ),
                       ],
                     ),
                   ),
                   MaterialButton(
-                    minWidth: (MediaQuery.of(context).size.width)/5,
+                    minWidth: (MediaQuery.of(context).size.width) / 5,
                     onPressed: () {
                       setState(() {
                         currentScreen = profilepage();
@@ -148,11 +168,18 @@ class _bottomnavState extends State<bottomnav> {
                       children: [
                         Icon(
                           CupertinoIcons.profile_circled,
-                          color: currentTab == 3 ? Color(0xFF5284E3) : Color(0xFF4F4F4F),
+                          color: currentTab == 3
+                              ? Color(0xFF5284E3)
+                              : Color(0xFF4F4F4F),
                         ),
                         Text(
                           'Profile',
-                          style: TextStyle(fontSize:(MediaQuery.of(context).size.width)/38, color:  currentTab == 3 ? Color(0xFF5284E3) : Color(0xFF4F4F4F)),
+                          style: TextStyle(
+                              fontSize:
+                                  (MediaQuery.of(context).size.width) / 38,
+                              color: currentTab == 3
+                                  ? Color(0xFF5284E3)
+                                  : Color(0xFF4F4F4F)),
                         ),
                       ],
                     ),
