@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_catalog_apps/authentication/loginPage.dart';
 import 'package:store_catalog_apps/bottomnav.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: bottomnav(),
+      home: SignInPage(),
     );
   }
 }

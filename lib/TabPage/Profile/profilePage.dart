@@ -28,7 +28,10 @@ class _profilepageState extends State<profilepage> {
                 Container(
                   width: 150,
                   height: 150,
-                  child: Image.asset("assets/images/chat_pic.png"),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        "https://media-exp1.licdn.com/dms/image/C4E03AQE7GpkWZcMBhQ/profile-displayphoto-shrink_200_200/0/1630379143381?e=1647475200&v=beta&t=f1nCa-nGUKqkXuruVLEW35NnQ_AKvU1okNv91g0f9Yk"),
+                  ),
                 ),
               ],
             ),
