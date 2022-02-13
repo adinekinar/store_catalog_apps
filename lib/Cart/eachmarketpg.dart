@@ -65,10 +65,13 @@ class _eachMarketPgState extends State<eachMarketPg> {
                         children: [
                           GestureDetector(
                             child: Center(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                height: size.height/5,
-                                child: Image.asset(storeProduct[index].pURL[0].toString()),
+                              child: Hero(
+                                tag: storeProduct[index],
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(vertical: 10),
+                                  height: size.height/5,
+                                  child: Image.asset(storeProduct[index].pURL[0].toString()),
+                                ),
                               ),
                             ),
                             onTap: () {

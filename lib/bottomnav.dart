@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:search_page/search_page.dart';
 import 'package:store_catalog_apps/Data/allData.dart';
-import 'package:store_catalog_apps/Data/searchPgTemp.dart';
 
 import 'package:store_catalog_apps/TabPage/Favorites/favoritePage.dart';
 import 'package:store_catalog_apps/TabPage/Home/homePage.dart';
 import 'package:store_catalog_apps/TabPage/Notifications/notifyPage.dart';
 import 'package:store_catalog_apps/TabPage/Profile/profilePage.dart';
-import 'package:store_catalog_apps/TabPage/Search/searchPage.dart';
+
+import 'Cart/eachproductpg.dart';
 
 class bottomnav extends StatefulWidget {
   const bottomnav({Key? key}) : super(key: key);
@@ -25,7 +26,6 @@ class _bottomnavState extends State<bottomnav> {
   final List<Widget> screen = [
     homepage(),
     favpage(),
-    searchTempPg(),
     notifpage(),
     profilepage()
   ];
@@ -45,10 +45,26 @@ class _bottomnavState extends State<bottomnav> {
           color: Color(0xFFEBEAEF),
         ),
         onPressed: () {
-          setState(() {
-            currentScreen = searchTempPg();
-            currentTab = 4;
-          });
+          showSearch(
+            context: context,
+            delegate: SearchPage<Product>(
+              items: products,
+              searchLabel: 'Search product',
+              suggestion: Center(
+                child: Text('Filter products by name and storename'),
+              ),
+              failure: Center(
+                child: Text('No products found :('),
+              ),
+              filter: (product) => [
+                product.pname,
+                product.storename
+              ],
+              builder: (product) {
+                return gridSearchTemp(product: product);
+              },
+            ),
+          );
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -188,6 +204,68 @@ class _bottomnavState extends State<bottomnav> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+//ListView Search
+class gridSearchTemp extends StatelessWidget {
+  const gridSearchTemp({Key? key, required this.product}) : super(key: key);
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: GestureDetector(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  height: size.height/6,
+                  child: Image.asset(product.pURL[0]),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: size.height/14, horizontal: size.width/12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      product.pname,
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: size.width/21),
+                    ),
+                    Container(
+                      child: Text(
+                        product.storename,
+                        style: TextStyle(fontWeight: FontWeight.w300, fontSize: size.width/23),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => eachProductPg(product: product,)),
+            );
+          },
         ),
       ),
     );

@@ -221,10 +221,23 @@ class _eachProductPgState extends State<eachProductPg> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: Container(
-                          height: 300,
-                          child: Image.asset(widget.product.pURL[colorIndex]),
+                      Hero(
+                        tag: widget.product,
+                        child: Expanded(
+                          child: AnimatedSwitcher(
+                            duration: Duration(milliseconds: 500),
+                            transitionBuilder: (child, animation) {
+                              return ScaleTransition(
+                                child: child,
+                                scale: animation,
+                              );
+                            },
+                            child: Container(
+                              key: Key(colorIndex.toString()),
+                              height: 300,
+                              child: Image.asset(widget.product.pURL[colorIndex]),
+                            ),
+                          ),
                         ),
                       )
                     ],

@@ -152,10 +152,13 @@ class _ListFavoriteProdState extends State<ListFavoriteProd> {
         ),
         child: Row(
           children: [
-            Container(
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                height: 100, width: 100,
-                child: Image.asset(widget.product.pURL[0]),
+            Hero(
+              tag: widget.product,
+              child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  height: 100, width: 100,
+                  child: Image.asset(widget.product.pURL[0]),
+              ),
             ),
             Expanded(
               child: Column(

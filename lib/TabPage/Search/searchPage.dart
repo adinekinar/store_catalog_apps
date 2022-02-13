@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:store_catalog_apps/Cart/eachproductpg.dart';
 import 'package:store_catalog_apps/Data/allData.dart';
 
 class searchpage extends StatefulWidget {
@@ -11,13 +10,50 @@ class searchpage extends StatefulWidget {
 }
 
 class _searchpageState extends State<searchpage> {
+  Widget appBarTitle = Text(
+    "Search",
+    style: TextStyle(color: Colors.black),
+  );
+  Icon actionIcon = Icon(
+    Icons.search,
+    color: Colors.black,
+  );
   List<Product>? product;
-  final searchcont = TextEditingController();
+  List<Product>? searchProd = [];
+
+  final key = GlobalKey<ScaffoldState>();
+  final TextEditingController searchcont = TextEditingController();
+  bool isSearching = false;
   String query = '';
+
+  SearchListState() {
+    searchcont.addListener(() {
+      if (searchcont.text.isEmpty) {
+        setState(() {
+          isSearching = false;
+          query = '';
+          buildSearchList();
+        });
+      } else {
+        setState(() {
+          isSearching = true;
+          query = searchcont.text;
+          buildSearchList();
+        });
+      }
+    });
+  }
 
   @override
   void initState() {
-    product = products;
+    super.initState();
+    isSearching = false;
+    init();
+  }
+
+  void init() {
+    //products = [];
+    searchProd = product;
   }
 
   @override
@@ -32,7 +68,7 @@ class _searchpageState extends State<searchpage> {
         final searchLow = query.toLowerCase();
 
         return titlelower.contains(searchLow) ||
-          storeLower.contains(searchLow);
+            storeLower.contains(searchLow);
       }).toList();
 
       setState(() {
@@ -43,72 +79,91 @@ class _searchpageState extends State<searchpage> {
 
     return Scaffold(
       backgroundColor: Color(0xFFEBEAEF),
-      appBar: AppBar(
-        title: Text(
-          'Search',
-          style: TextStyle(color: Colors.black),
+      key: key,
+      appBar: buildAppBar(),
+      body: GridView.builder(
+        itemCount: searchProd!.length,
+        itemBuilder: (context, index) {
+          return gridSearch(product: product![index]);
+        },
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2
         ),
-        backgroundColor: Color(0xFFEBEAEF),
-        elevation: 0,
-        centerTitle: true,
-        leading: BackButton(
-          color: Colors.black,
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(CupertinoIcons.search_circle, color: Colors.black,),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-            child: TextFormField(
-              controller: searchcont,
-              decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  hintText: 'Search keyword...',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.black)),
-                suffixIcon: query.isNotEmpty
-                  ? GestureDetector(
-                    child: Icon(Icons.close,),
-                    onTap: () {
-                      searchcont.clear();
-                      onChange('');
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
-                ) : null,
-              ),
-              onChanged: onChange,
-            ),
-          ),
-          Flexible(
-            child: CustomScrollView(
-              slivers: [
-                SliverGrid(
-                  delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                      return gridSearch(product: products[index],);
-                    },
-                    childCount: products.length,
-                  ),
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: size.width/2,
-                      mainAxisExtent: size.height/3,
-                      mainAxisSpacing: 10
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 30,)
-        ],
       ),
     );
+  }
+
+  List<Product>? buildList() {
+    return product;
+  }
+
+  List<Product>? buildSearchList() {
+    if (query.isEmpty) {
+      return searchProd =
+          product;
+    } else {
+      searchProd = product!.where((element) =>
+      element.pname.toLowerCase().contains(query.toLowerCase()) ||
+          element.storename.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      print('${searchProd!.length}');
+      return searchProd;
+    }
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+        centerTitle: true,
+        title: appBarTitle,
+        iconTheme: IconThemeData(color: Colors.orange),
+        backgroundColor: Colors.black,
+        actions: <Widget>[
+          IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = Icon(
+                    Icons.close,
+                    color: Colors.orange,
+                  );
+                  this.appBarTitle = TextField(
+                    controller: searchcont,
+                    style: TextStyle(
+                      color: Colors.orange,
+                    ),
+                    decoration: InputDecoration(
+                        hintText: "Search here..",
+                        hintStyle: TextStyle(color: Colors.white)),
+                  );
+                  _handleSearchStart();
+                } else {
+                  _handleSearchEnd();
+                }
+              });
+            },
+          ),
+        ]);
+  }
+  void _handleSearchStart() {
+    setState(() {
+      isSearching = true;
+    });
+  }
+
+  void _handleSearchEnd() {
+    setState(() {
+      this.actionIcon = Icon(
+        Icons.search,
+        color: Colors.orange,
+      );
+      this.appBarTitle = Text(
+        "My Properties",
+        style: TextStyle(color: Colors.white),
+      );
+      isSearching = false;
+      searchcont.clear();
+    });
   }
 }
 
