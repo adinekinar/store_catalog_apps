@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:store_catalog_apps/Cart/cart.dart';
+import 'package:store_catalog_apps/Data/allData.dart';
+import 'package:store_catalog_apps/TabPage/Notifications/chatPage.dart';
 import 'package:store_catalog_apps/authentication/loginPage.dart';
 
 class homepage extends StatefulWidget {
@@ -36,7 +39,12 @@ class _homepageState extends State<homepage> {
               CupertinoIcons.chat_bubble,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Chat()),
+              );
+            },
           ),
           IconButton(
             icon: Icon(
@@ -93,7 +101,7 @@ class _homepageState extends State<homepage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Recommended Jobs",
+                        Text("Recommended Market",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500)),
                         Text("See All",
@@ -107,14 +115,8 @@ class _homepageState extends State<homepage> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          ToolsRecommendation(),
-                          ToolsRecommendation(),
-                          ToolsRecommendation(),
-                          ToolsRecommendation(),
-                          ToolsRecommendation(),
-                          ToolsRecommendation(),
-                          ToolsRecommendation(),
-                          ToolsRecommendation(),
+                          for(int i = 0; i < storename.length; i++)
+                            ToolsRecommendation(index: i),
                         ],
                       ),
                     ),
@@ -124,7 +126,7 @@ class _homepageState extends State<homepage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Recent Jobs",
+                        Text("Recent Seen..",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500)),
                         Text("See All",
@@ -136,12 +138,8 @@ class _homepageState extends State<homepage> {
                     ),
                     Column(
                       children: [
-                        ToolsRecommendation(),
-                        ToolsRecommendation(),
-                        ToolsRecommendation(),
-                        ToolsRecommendation(),
-                        ToolsRecommendation(),
-                        ToolsRecommendation(),
+                        for(int i = 0; i < carts.length; i++)
+                          RecentSeen(index: i,),
                       ],
                     )
                   ],
@@ -155,51 +153,100 @@ class _homepageState extends State<homepage> {
   }
 }
 
+//Market Recomendation
 class ToolsRecommendation extends StatelessWidget {
-  const ToolsRecommendation({Key? key}) : super(key: key);
+  const ToolsRecommendation({Key? key, required this.index}) : super(key: key);
+  final int index;
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
-      child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(15),
-          child: InkWell(
-            splashColor: Colors.blue.withAlpha(30),
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => SignInPage()));
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+      padding: EdgeInsets.all(20),
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(20)),
+      child: InkWell(
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => SignInPage()));
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Image.asset('asset/product/store.png', height: size.width/6, width: size.width/6,),
+            SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.network(
-                  "https://placesjournal.org/wp-content/uploads/2018/07/mattern-02-hardware.jpg",
-                  height: 64,
-                  width: 64,
+                Text(
+                  storename[index],
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "PT Sukolilo Perkakas",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Surabaya, Jawa Timur"),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Onsite - USD10K/month")
-                  ],
+                SizedBox(
+                  height: 10,
+                ),
+                Text("Surabaya, Jawa Timur"),
+                SizedBox(
+                  height: 10,
+                ),
+                Text("Onsite - USD10K/month")
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//Recent Seen
+class RecentSeen extends StatelessWidget {
+  const RecentSeen({Key? key, required this.index}) : super(key: key);
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(20)),
+      child: InkWell(
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => SignInPage()));
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset(carts[index].pURL, height: size.width/4, width: size.height/4,),
+            SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  carts[index].pname,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(storename[index]),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(carts[index].prize),
+                  style: TextStyle(color: Color(0xFF5284E3)),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

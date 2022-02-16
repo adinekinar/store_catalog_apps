@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,6 +13,7 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFEBEAEF),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -40,15 +42,8 @@ class _ChatState extends State<Chat> {
       ),
       body: ListView(
         children: [
-          ChatContainer(),
-          ChatContainer(),
-          ChatContainer(),
-          ChatContainer(),
-          ChatContainer(),
-          ChatContainer(),
-          ChatContainer(),
-          ChatContainer(),
-          ChatContainer()
+          for (var i = 0; i < 10; i++)
+            ChatContainer(),
         ],
       ),
     );
@@ -60,20 +55,18 @@ class ChatContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
-      height: 100,
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1))),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      height: size.height/6,
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.network(
-              "https://placesjournal.org/wp-content/uploads/2018/07/mattern-02-hardware.jpg",
-              height: 64,
-              width: 64,
-            ),
+            Image.asset('asset/product/store.png'),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
