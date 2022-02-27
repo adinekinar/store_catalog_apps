@@ -30,7 +30,7 @@ class _profilepageState extends State<profilepage> {
                   height: 150,
                   child: CircleAvatar(
                     backgroundImage: NetworkImage(
-                        "https://media-exp1.licdn.com/dms/image/C4E03AQE7GpkWZcMBhQ/profile-displayphoto-shrink_200_200/0/1630379143381?e=1647475200&v=beta&t=f1nCa-nGUKqkXuruVLEW35NnQ_AKvU1okNv91g0f9Yk"),
+                        "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"),
                   ),
                 ),
               ],
@@ -39,7 +39,7 @@ class _profilepageState extends State<profilepage> {
               height: 55,
               child: Center(
                 child: Text(
-                  "Hans Fahrezi",
+                  "Arizal Fahrezi",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   textAlign: TextAlign.center,
                 ),

@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:search_page/search_page.dart';
 import 'package:store_catalog_apps/Cart/cart.dart';
+import 'package:store_catalog_apps/Cart/eachmarketpg.dart';
+import 'package:store_catalog_apps/Cart/eachproductpg.dart';
 import 'package:store_catalog_apps/Data/allData.dart';
 import 'package:store_catalog_apps/TabPage/Notifications/chatPage.dart';
 import 'package:store_catalog_apps/authentication/loginPage.dart';
+
+import '../../bottomnav.dart';
 
 class homepage extends StatefulWidget {
   const homepage({Key? key}) : super(key: key);
@@ -16,6 +21,8 @@ class homepage extends StatefulWidget {
 class _homepageState extends State<homepage> {
   @override
   Widget build(BuildContext context) {
+    final Product product;
+
     return Scaffold(
       backgroundColor: Color(0xFFEBEAEF),
       appBar: AppBar(
@@ -72,11 +79,11 @@ class _homepageState extends State<homepage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Let’s discover",
+                      "Tools for work,",
                       style:
                           TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
                     ),
-                    Text("your dream job here.",
+                    Text("work for dream.",
                         style: TextStyle(
                             fontSize: 23, fontWeight: FontWeight.w500)),
                   ],
@@ -87,13 +94,44 @@ class _homepageState extends State<homepage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.search),
-                          hintText: "Search",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Colors.black))),
+                    GestureDetector(
+                      child: Container(
+                        height: 50,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Row(
+                          children: [
+                            Image.network("https://i.postimg.cc/q7h16vPh/Group-1.png", color: Colors.grey, width: 25, height: 25,),
+                            SizedBox(width: 10,),
+                            Text('Search..', style: TextStyle(color: Colors.grey),),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        showSearch(
+                          context: context,
+                          delegate: SearchPage<Product>(
+                            items: products,
+                            searchLabel: 'Search product',
+                            suggestion: Center(
+                              child: Text('Filter products by name and storename'),
+                            ),
+                            failure: Center(
+                              child: Text('No products found :('),
+                            ),
+                            filter: (product) => [
+                              product.pname,
+                              product.storename
+                            ],
+                            builder: (product) {
+                              return gridSearchTemp(product: product);
+                            },
+                          ),
+                        );
+                      },
                     ),
                     SizedBox(
                       height: 15,
@@ -141,7 +179,7 @@ class _homepageState extends State<homepage> {
                         for(int i = 0; i < carts.length; i++)
                           RecentSeen(index: i,),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -168,8 +206,9 @@ class ToolsRecommendation extends StatelessWidget {
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
+          final storenme = products.where((e) => e.storename == storename[index]).toList();
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => SignInPage()));
+              .push(MaterialPageRoute(builder: (context) => eachMarketPg(storename: storename[index], productamount: storenme.length)));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -209,6 +248,7 @@ class RecentSeen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    int indexbaru = 0;
     return Container(
       width: size.width,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -217,8 +257,13 @@ class RecentSeen extends StatelessWidget {
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => SignInPage()));
+          if(index == 0){
+            indexbaru = 9;
+          } else {
+            indexbaru = 6;
+          }
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => eachProductPg(product: products[indexbaru])));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
