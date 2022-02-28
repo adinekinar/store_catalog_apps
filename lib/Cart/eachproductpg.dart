@@ -1,5 +1,5 @@
-import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:add_to_cart_animation/add_to_cart_icon.dart';
+import 'package:easycartanimation/easycartanimation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
@@ -20,9 +20,8 @@ class eachProductPg extends StatefulWidget {
 
 class _eachProductPgState extends State<eachProductPg> {
 
-  GlobalKey<CartIconKey> glokcart = GlobalKey<CartIconKey>();
-  late Function (GlobalKey) runaddtocartanim;
-  var cartquantity = 0;
+  GlobalKey keys = GlobalKey();
+  late Offset endofoffset;
 
   int amount = 0;
   bool isLiked = false;
@@ -43,24 +42,19 @@ class _eachProductPgState extends State<eachProductPg> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      endofoffset = (keys.currentContext!.findRenderObject() as RenderBox).localToGlobal(Offset.zero);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return AddToCartAnimation(
-      gkCart: glokcart,
-      rotation: true,
-      dragToCardCurve: Curves.easeIn,
-      dragToCardDuration: const Duration(milliseconds: 1000),
-      previewCurve: Curves.linearToEaseOut,
-      previewDuration: const Duration(milliseconds: 500),
-      previewHeight: 30,
-      previewWidth: 30,
-      opacity: 0.85,
-      initiaJump: false,
-      receiveCreateAddToCardAnimationMethod: (addtocartanimmetod) {
-        this.runaddtocartanim = addtocartanimmetod;
-      },
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: widget.product.pcolor[colorIndex],
         appBar: buildAppBar(),
         bottomNavigationBar: BottomAppBar(
@@ -110,27 +104,49 @@ class _eachProductPgState extends State<eachProductPg> {
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: MaterialButton(
-                    child: Container(
-                      child: Center(
-                        child: Text(
-                          '  Add To\nYour Cart',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
+                  child: Builder(
+                    builder: (context) {
+                      return MaterialButton(
+                        child: Container(
+                          child: Center(
+                            child: Text(
+                              '  Add To\nYour Cart',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ),
+                          height: 70,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                      ),
-                      height: 70,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    onPressed: () {
-                      listClick;
+                        onPressed: () {
+                          var overlayenter = OverlayEntry(builder: (c) {
+                            RenderBox boxes = context.findRenderObject() as RenderBox;
+                            var offset = boxes.localToGlobal(Offset.zero);
+                            return EasyCartAnimation(
+                              startPosition: offset,
+                              endPosition: endofoffset,
+                              height: 20,
+                              width: 20,
+                              color: Colors.yellowAccent,
+                              dxCurveAnimation: 250,
+                              dyCurveAnimation: 50,
+                              opacity: 0.5,
+                            );
+                          });
+                          Overlay.of(context)!.insert(overlayenter);
+                          Future.delayed(Duration(milliseconds: 800), () {
+                            overlayenter.remove();
+                            //overlayenter = null;
+                          });
+                        },
+                      );
                     },
                   ),
                 ),
@@ -272,8 +288,7 @@ class _eachProductPgState extends State<eachProductPg> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
   AppBar buildAppBar() {
@@ -300,18 +315,22 @@ class _eachProductPgState extends State<eachProductPg> {
             },
           ),
         ),
-        AddToCartIcon(
-          key: glokcart,
-          icon: Icon(Icons.shopping_cart),
-          colorBadge: Colors.yellowAccent,
-        )
+        IconButton(
+          key: keys,
+          icon: Icon(
+            CupertinoIcons.cart,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartScreen()),
+            );
+          },
+        ),
       ],
     );
   }
 
-  void listClick (GlobalKey gloimagecontain) async {
-    await runaddtocartanim(gloimagecontain);
-    await glokcart.currentState!.runCartAnimation((++cartquantity).toString());
-  }
 }
 

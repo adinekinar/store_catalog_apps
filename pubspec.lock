@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  easycartanimation:
+    dependency: "direct main"
+    description:
+      name: easycartanimation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0+1"
   expandable_text:
     dependency: "direct main"
     description:

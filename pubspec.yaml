@@ -29,6 +29,7 @@ dependencies:
   search_page: ^2.0.0+1
   url_launcher: ^6.0.10
   add_to_cart_animation: ^1.0.1
+  easycartanimation: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:

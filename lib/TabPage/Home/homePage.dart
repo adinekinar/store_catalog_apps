@@ -259,8 +259,10 @@ class RecentSeen extends StatelessWidget {
         onTap: () {
           if(index == 0){
             indexbaru = 9;
-          } else {
+          } else if (index == 1){
             indexbaru = 6;
+          } else {
+            indexbaru = 3;
           }
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => eachProductPg(product: products[indexbaru])));

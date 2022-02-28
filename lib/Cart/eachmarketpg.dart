@@ -1,3 +1,4 @@
+import 'package:easycartanimation/easycartanimation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,19 @@ class eachMarketPg extends StatefulWidget {
 }
 
 class _eachMarketPgState extends State<eachMarketPg> {
+
+  GlobalKey keys = GlobalKey();
+  late Offset endofoffset;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      endofoffset = (keys.currentContext!.findRenderObject() as RenderBox).localToGlobal(Offset.zero);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -37,6 +51,7 @@ class _eachMarketPgState extends State<eachMarketPg> {
         ),
         actions: [
           IconButton(
+            key: keys,
             icon: Icon(CupertinoIcons.cart, color: Colors.black,),
             onPressed: () {
               Navigator.push(
@@ -99,14 +114,38 @@ class _eachMarketPgState extends State<eachMarketPg> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(top: size.height/25, left: size.width/4),
-                                child: ElevatedButton(
-                                  child: Icon(CupertinoIcons.cart_badge_plus),
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder(),
-                                    padding: EdgeInsets.all(10),
-                                    primary: Color(0xFF5284E3),
-                                  ),
+                                child: Builder(
+                                  builder: (context) {
+                                    return ElevatedButton(
+                                      child: Icon(CupertinoIcons.cart_badge_plus),
+                                      onPressed: () {
+                                        var overlayenter = OverlayEntry(builder: (c) {
+                                          RenderBox boxes = context.findRenderObject() as RenderBox;
+                                          var offset = boxes.localToGlobal(Offset.zero);
+                                          return EasyCartAnimation(
+                                            startPosition: offset,
+                                            endPosition: endofoffset,
+                                            height: 20,
+                                            width: 20,
+                                            color: Colors.yellowAccent,
+                                            dxCurveAnimation: 250,
+                                            dyCurveAnimation: 50,
+                                            opacity: 0.5,
+                                          );
+                                        });
+                                        Overlay.of(context)!.insert(overlayenter);
+                                        Future.delayed(Duration(milliseconds: 800), () {
+                                          overlayenter.remove();
+                                          //overlayenter = null;
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        shape: CircleBorder(),
+                                        padding: EdgeInsets.all(10),
+                                        primary: Color(0xFF5284E3),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ],
