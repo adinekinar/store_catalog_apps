@@ -12,6 +12,7 @@ class _profilepageState extends State<profilepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFEBEAEF),
       body: Center(
         child: Column(
           children: [

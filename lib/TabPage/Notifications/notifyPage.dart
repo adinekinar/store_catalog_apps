@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'chatPage.dart';
+
 class notifpage extends StatefulWidget {
   const notifpage({Key? key}) : super(key: key);
 
@@ -51,7 +53,12 @@ class _notifpageState extends State<notifpage> {
       actions: [
         IconButton(
           icon: Icon(CupertinoIcons.chat_bubble, color: Colors.black,),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Chat()),
+            );
+          },
         ),
       ],
     );
